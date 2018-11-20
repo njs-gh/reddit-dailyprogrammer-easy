@@ -4,9 +4,9 @@
  *  <p>"Create a program that will ask the users name, age, and reddit username.</p>
  *  <p>Have it tell them the information back, in the format:
  *  <ul><li>your name is (blank), you are (blank) years old, and your username is (blank)</li></ul>
- *  For extra credit, have the program log this information in a file to be accessed later."</p>
+ *  <p>For extra credit, have the program log this information in a file to be accessed later."</p>
  *  
- *  @author <a href="njs-prm@protonmail.ch">Nicholas Seaborn</a>
+ *  @author <a href="njs-pm@protonmail.ch">Nicholas Seaborn</a>
  *  @version 2018.11.20
  */
 package njsgh.rdpe.repeatinfoback;

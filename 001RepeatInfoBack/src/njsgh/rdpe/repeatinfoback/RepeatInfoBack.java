@@ -6,8 +6,9 @@ import java.io.IOException;
 
 
 /**
+ *  Represents a single user interaction, taking their three problem-specified details and writing them to an external file.
  *  
- *  @author <a href="njs-prm@protonmail.ch">Nicholas Seaborn</a>
+ *  @author <a href="njs-pm@protonmail.ch">Nicholas Seaborn</a>
  *  @see njsgh.rdpe.repeatinfoback
  *  @version 2018.11.20
  */
@@ -114,7 +115,7 @@ public class RepeatInfoBack
 	{
 		try
 		{
-			FileWriter writeOutToFile = new FileWriter("repeatInfoBack.csv", appendToExistingFile);
+			FileWriter writeOutToFile = new FileWriter("/bin/repeatInfoBack.csv", appendToExistingFile);
 			writeOutToFile.write(this.userActualName + "," + this.userActualAge + "," + this.userChosenUsername + System.getProperty("line.separator"));
 			writeOutToFile.close();
 		} catch (IOException e)
