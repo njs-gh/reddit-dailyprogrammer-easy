@@ -1,32 +1,53 @@
-/**
- *  Latest Author: Nicholas Seaborn
- *  Latest Author Email: njs-prm@protonmail.ch
- *  
- *  Section Name: Class, RepeatInfoBack
- *  Version: 2018.11.14
- *  License: Public Domain
- *  Stage: Completed, Untested, Reliable, SemiDocumented
- *  
- *  URL: https://old.reddit.com/r/dailyprogrammer/comments/pih8x/easy_challenge_1/
- *  Description: 
- *  	Create a program that will ask the users name, age, and reddit username. Have it tell them the information back, in the format:
- *  	your name is (blank), you are (blank) years old, and your username is (blank)
- *  For extra credit, have the program log this information in a file to be accessed later.
- */
-
 package njsgh.rdpe.repeatinfoback;
 
 import java.util.Scanner;
 import java.io.FileWriter;
 import java.io.IOException;
 
+
 /**
- * @author bia
- *
+ *  
+ *  @author <a href="njs-prm@protonmail.ch">Nicholas Seaborn</a>
+ *  @see njsgh.rdpe.repeatinfoback
+ *  @version 2018.11.20
  */
 public class RepeatInfoBack
 {
 	private String userActualName, userActualAge, userChosenUsername;
+	
+	/**
+	 * Class constructor, accepting three strings for global variable assignment, with no validation.
+	 * @param userActualName
+	 * @param userActualAge
+	 * @param userChosenUsername
+	 */
+	public RepeatInfoBack(String userActualName, String userActualAge, String userChosenUsername)
+	{
+		this.userActualName = userActualName;
+		this.userActualAge = userActualAge;
+		this.userChosenUsername = userChosenUsername;
+	}
+
+	/**
+	 * Class construction, accepts no inputs, and procedurally asks the user via command line for values to assign to global variables.
+	 * @param userActualName 
+	 * @param userActualAge
+	 * @param userChosenUsername
+	 * @return 
+	 */
+	public RepeatInfoBack()
+	{
+		Scanner readInFromConsole = new Scanner(System.in);
+		
+		System.out.println("Please enter your actual name: ");
+		this.userActualName = readInFromConsole.nextLine();
+		System.out.println("Please enter your acutal age: ");
+		this.userActualAge = readInFromConsole.nextLine();
+		System.out.println("Please enter your username: ");
+		this.userChosenUsername = readInFromConsole.nextLine();
+		
+		readInFromConsole.close();
+	}
 	
 	/**
 	 * @return the userActualName
@@ -74,39 +95,6 @@ public class RepeatInfoBack
 	public void setUserChosenUsername(String userChosenUsername)
 	{
 		this.userChosenUsername = userChosenUsername;
-	}
-
-	/**
-	 * @param userActualName
-	 * @param userActualAge
-	 * @param userChosenUsername
-	 */
-	public RepeatInfoBack(String userActualName, String userActualAge, String userChosenUsername)
-	{
-		super();
-		this.userActualName = userActualName;
-		this.userActualAge = userActualAge;
-		this.userChosenUsername = userChosenUsername;
-	}
-
-	/**
-	 * @param userActualName
-	 * @param userActualAge
-	 * @param userChosenUsername
-	 */
-	public RepeatInfoBack()
-	{
-		super();
-		Scanner readInFromConsole = new Scanner(System.in);
-		
-		System.out.println("Please enter your actual name: ");
-		this.userActualName = readInFromConsole.nextLine();
-		System.out.println("Please enter your acutal age: ");
-		this.userActualAge = readInFromConsole.nextLine();
-		System.out.println("Please enter your username: ");
-		this.userChosenUsername = readInFromConsole.nextLine();
-		
-		readInFromConsole.close();
 	}
 
 	/**

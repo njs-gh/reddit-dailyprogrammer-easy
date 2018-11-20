@@ -1,5 +1,5 @@
 # Reddit DailyProgrammer Easy Challenges
-My solutions to the easy challenges posted on the DailyProgrammer subreddit.
+Solutions to the easy challenges posted on the DailyProgrammer subreddit.
 
 The DailyProgrammer subreddit/community can be found here:
 * https://old.reddit.com/r/dailyprogrammer/
