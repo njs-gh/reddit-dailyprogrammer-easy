@@ -4,9 +4,8 @@ import java.util.Scanner;
 import java.io.FileWriter;
 import java.io.IOException;
 
-
 /**
- *  Represents a single user interaction, taking their three problem-specified details and writing them to an external file.
+ *  Represents a single user interaction, taking their three problem-specified details, repeating them back and/or writing them to an external file.
  *  
  *  @author <a href="njs-pm@protonmail.ch">Nicholas Seaborn</a>
  *  @see njsgh.rdpe.repeatinfoback
@@ -99,7 +98,6 @@ public class RepeatInfoBack
 	}
 
 	/**
-	 * @author bia
 	 *
 	 */
 	public void repeatInfoBackToConsole()
@@ -108,7 +106,6 @@ public class RepeatInfoBack
 	}
 	
 	/**
-	 * @author bia
 	 *
 	 */
 	public void writeInfoOutToCSV(boolean appendToExistingFile)
