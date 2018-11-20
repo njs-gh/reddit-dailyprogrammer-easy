@@ -22,7 +22,7 @@ To gain practical experience in:
 
 # Conventions
 * Git commits will be as task specific as possible, as all commits should be!
-* Git commit message style in accordance, as best as possible, from joelparkerhenderson/git_commit_message
+* Git commit message style in as best as possible accordance from [joelparkerhenderson/git_commit_message](https://github.com/joelparkerhenderson/git_commit_message).
 
 # Other
 * All work contained within this repository is released in accordance with [The Unlicense](https://choosealicense.com/licenses/unlicense/).
