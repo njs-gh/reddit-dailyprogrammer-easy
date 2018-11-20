@@ -1,6 +1,7 @@
 package njsgh.rdpe.repeatinfoback;
 
 import java.util.Scanner;
+import java.util.InputMismatchException;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -13,44 +14,86 @@ import java.io.IOException;
  */
 public class RepeatInfoBack
 {
-	private String userActualName, userActualAge, userChosenUsername;
+	private String userActualName;
+	private int userActualAge;
+	private String userRedditUsername;
 	
 	/**
-	 * Class constructor, accepting three strings for global variable assignment, with no validation.
-	 * @param userActualName
-	 * @param userActualAge
-	 * @param userChosenUsername
-	 */
-	public RepeatInfoBack(String userActualName, String userActualAge, String userChosenUsername)
-	{
-		this.userActualName = userActualName;
-		this.userActualAge = userActualAge;
-		this.userChosenUsername = userChosenUsername;
-	}
-
-	/**
-	 * Class construction, accepts no inputs, and procedurally asks the user via command line for values to assign to global variables.
-	 * @param userActualName 
-	 * @param userActualAge
-	 * @param userChosenUsername
-	 * @return 
+	 * <p>Class construction, accepts no inputs, and procedurally asks the user via command line for values to assign to global variables.</p>
+	 * <p>No validation on inputted data occurs, bar error handling in case the user fails to enter an integer for their age, in which case, it's defaulted to 0.</p>
 	 */
 	public RepeatInfoBack()
 	{
 		Scanner readInFromConsole = new Scanner(System.in);
 		
 		System.out.println("Please enter your actual name: ");
-		this.userActualName = readInFromConsole.nextLine();
+		userActualName = readInFromConsole.nextLine();
 		System.out.println("Please enter your acutal age: ");
-		this.userActualAge = readInFromConsole.nextLine();
+		try
+		{
+			userActualAge = readInFromConsole.nextInt();
+		}catch(InputMismatchException e)
+		{
+			System.out.println("Integer not entered; setting your age to 0.");
+		}
+		readInFromConsole.nextLine();
 		System.out.println("Please enter your username: ");
-		this.userChosenUsername = readInFromConsole.nextLine();
+		userRedditUsername = readInFromConsole.nextLine();
 		
 		readInFromConsole.close();
 	}
 	
 	/**
-	 * @return the userActualName
+	 * Class constructor, accepting three strings for instance variable assignment, with no validation.
+	 * @param userActualName
+	 * @param userActualAge
+	 * @param userRedditUsername
+	 */
+	public RepeatInfoBack(String userActualName, int userActualAge, String userRedditUsername)
+	{
+		this.userActualName = userActualName;
+		this.userActualAge = userActualAge;
+		this.userRedditUsername = userRedditUsername;
+	}
+
+	/**
+	 *
+	 */
+	public void printFormattedToConsole()
+	{
+		System.out.println(getFormattedInfoString());
+	}
+	
+	/**
+	 *
+	 */
+	public void writeCSVOutToFile(String directoryAndFileDotExt, boolean appendToExistingFile)
+	{
+		try
+		{
+			FileWriter writeOutToFile = new FileWriter(directoryAndFileDotExt, appendToExistingFile);
+			
+			writeOutToFile.write(userActualName + "," + userActualAge + "," + userRedditUsername + System.getProperty("line.separator"));
+			
+			writeOutToFile.close();
+		} catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 *
+	 */
+	public String getFormattedInfoString()
+	{
+		return "your name is " + userActualName + ", you are " + userActualAge + " years old, and your username is " + userRedditUsername;
+	}
+	
+	/**
+	 * Returns the instance variable holding the user's actual name.
+	 * 
+	 * @return userActualName
 	 */
 	public String getUserActualName()
 	{
@@ -66,9 +109,11 @@ public class RepeatInfoBack
 	}
 
 	/**
+	 * Returns the instance variable holding the user's actual age.
+	 * 
 	 * @return the userActualAge
 	 */
-	public String getUserActualAge()
+	public int getUserActualAge()
 	{
 		return userActualAge;
 	}
@@ -76,48 +121,26 @@ public class RepeatInfoBack
 	/**
 	 * @param userActualAge the userActualAge to set
 	 */
-	public void setUserActualAge(String userActualAge)
+	public void setUserActualAge(int userActualAge)
 	{
 		this.userActualAge = userActualAge;
 	}
-
+	
 	/**
-	 * @return the userChosenUsername
+	 * Returns the instance variable holding the user's Reddit username.
+	 * 
+	 * @return the userRedditUsername
 	 */
-	public String getUserChosenUsername()
+	public String getUserRedditUsername()
 	{
-		return userChosenUsername;
-	}
-
-	/**
-	 * @param userChosenUsername the userChosenUsername to set
-	 */
-	public void setUserChosenUsername(String userChosenUsername)
-	{
-		this.userChosenUsername = userChosenUsername;
-	}
-
-	/**
-	 *
-	 */
-	public void repeatInfoBackToConsole()
-	{
-		System.out.println("your name is " + this.userActualName + ", you are " + this.userActualAge + " years old, and your username is " + this.userChosenUsername);
+		return userRedditUsername;
 	}
 	
 	/**
-	 *
+	 * @param userRedditUsername the userRedditUsername to set
 	 */
-	public void writeInfoOutToCSV(boolean appendToExistingFile)
+	public void setUserRedditUsername(String userRedditUsername)
 	{
-		try
-		{
-			FileWriter writeOutToFile = new FileWriter("/bin/repeatInfoBack.csv", appendToExistingFile);
-			writeOutToFile.write(this.userActualName + "," + this.userActualAge + "," + this.userChosenUsername + System.getProperty("line.separator"));
-			writeOutToFile.close();
-		} catch (IOException e)
-		{
-			e.printStackTrace();
-		}
+		this.userRedditUsername = userRedditUsername;
 	}
 }

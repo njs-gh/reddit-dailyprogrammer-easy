@@ -1,10 +1,7 @@
-/**
- * 
- */
 package njsgh.rdpe.repeatinfoback;
 
 /**
- * @author bia
+ *
  *
  */
 public class Main
@@ -15,19 +12,18 @@ public class Main
 	 */
 	public static void main(String[] args)
 	{
-		RepeatInfoBack user = new RepeatInfoBack();
-		user.repeatInfoBackToConsole();
-		user.writeInfoOutToCSV(true);
+		RepeatInfoBack userCommandLine = new RepeatInfoBack();
+		userCommandLine.printFormattedToConsole();
+		userCommandLine.writeCSVOutToFile("bin/repeatInfoBack.csv", true);
 		
-		RepeatInfoBack anotherUser = new RepeatInfoBack("Chris", "25", "css-gh");
-		anotherUser.repeatInfoBackToConsole();
-		anotherUser.writeInfoOutToCSV(false);
+		RepeatInfoBack constructedUser = new RepeatInfoBack("Paul", 25, "pdm-gh");
+		constructedUser.printFormattedToConsole();
+		constructedUser.writeCSVOutToFile("bin/repeatInfoBack.csv", false);
 		
-		user.writeInfoOutToCSV(true);
-		anotherUser.setUserActualName("Sam");
-		anotherUser.setUserActualAge("27");
-		anotherUser.setUserChosenUsername("sam-gh");
-		anotherUser.repeatInfoBackToConsole();
-		anotherUser.writeInfoOutToCSV(true);
+		constructedUser.setUserActualName("Scott");
+		constructedUser.setUserActualAge(27);
+		constructedUser.setUserRedditUsername("st-gh");
+		constructedUser.printFormattedToConsole();
+		constructedUser.writeCSVOutToFile("bin/repeatInfoBack.csv", true);
 	}
 }
