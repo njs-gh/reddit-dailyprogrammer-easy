@@ -5,7 +5,10 @@
  *  <p>Have it tell them the information back, in the format:
  *  <ul><li>your name is (blank), you are (blank) years old, and your username is (blank)</li></ul>
  *  <p>For extra credit, have the program log this information in a file to be accessed later."</p>
+ *  
  *  @author <a href="njs-pm@protonmail.ch">Nicholas Seaborn</a>
  *  @version 2018.11.20
+ *  @see njsgh.rdpe.repeatinfoback.Main
+ *  @see njsgh.rdpe.repeatinfoback.RepeatInfoBack
  */
 package njsgh.rdpe.repeatinfoback;

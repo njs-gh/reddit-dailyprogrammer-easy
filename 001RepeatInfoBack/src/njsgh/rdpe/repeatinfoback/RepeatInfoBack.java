@@ -6,7 +6,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 /**
- *  Represents a single user interaction, taking their three problem-specified details, repeating them back and/or writing them to an external file.
+ *  <p>Represents a single user interaction, taking their three problem-specified details, repeating them back and/or writing them to an external file.</p>
+ *  <p>Potential task, extend code to validate data: actual name of only alphanumeric, age within some range.</p>
+ *  <p>Potential task, investigate, compare, implement a better file write methods.</p>
+ *  <p>Potential task, order methods by precedence.</p>
  *  
  *  @author <a href="njs-pm@protonmail.ch">Nicholas Seaborn</a>
  *  @see njsgh.rdpe.repeatinfoback
@@ -19,8 +22,12 @@ public class RepeatInfoBack
 	private String userRedditUsername;
 	
 	/**
-	 * <p>Class construction, accepts no inputs, and procedurally asks the user via command line for values to assign to global variables.</p>
+	 * <p>Class construction, accepts no inputs, and procedurally asks the user via command line for values to assign to instance variables.</p>
 	 * <p>No validation on inputted data occurs, bar error handling in case the user fails to enter an integer for their age, in which case, it's defaulted to 0.</p>
+	 * <p>Accomplishes core feature.</p>
+	 * <p>Potential task, extend code to validate data.</p>
+	 * 
+	 * @see njsgh.rdpe.repeatinfoback
 	 */
 	public RepeatInfoBack()
 	{
@@ -44,10 +51,14 @@ public class RepeatInfoBack
 	}
 	
 	/**
-	 * Class constructor, accepting three strings for instance variable assignment, with no validation.
-	 * @param userActualName
-	 * @param userActualAge
-	 * @param userRedditUsername
+	 * <p>Class constructor, accepting three strings for instance variable assignment, with no validation.</p>
+	 * <p>Accomplishes core feature.</p>
+	 * <p>Potential task, extend code to validate data.</p>
+	 * 
+	 * @param userActualName The user's actual name.
+	 * @param userActualAge The user's actual age.
+	 * @param userRedditUsername The user's chosen Reddit user name.
+	 * @see njsgh.rdpe.repeatinfoback
 	 */
 	public RepeatInfoBack(String userActualName, int userActualAge, String userRedditUsername)
 	{
@@ -57,15 +68,23 @@ public class RepeatInfoBack
 	}
 
 	/**
+	 * <p>Prints the user's details in the problem-statement defined format to console.</p>
+	 * <p>Accomplishes core feature.</p>
 	 *
+	 *@see njsgh.rdpe.repeatinfoback
 	 */
 	public void printFormattedToConsole()
 	{
-		System.out.println(getFormattedInfoString());
+		System.out.println(getFormattedInfoString("your name is ", ", you are ", " years old, and your username is "));
 	}
 	
 	/**
-	 *
+	 * <p>Accomplishes the "extra credit" task by writing out user's details to a specified file.</p>
+	 * <p>Potential task, investigate, compare, implement a better file write methods.</p>
+	 * 
+	 * @param directoryAndFileDotExt What location to write the CSV to.
+	 * @param appendToExistingFile If the location already exists, true append CSV at the end.
+	 * @see njsgh.rdpe.repeatinfoback
 	 */
 	public void writeCSVOutToFile(String directoryAndFileDotExt, boolean appendToExistingFile)
 	{
@@ -73,7 +92,7 @@ public class RepeatInfoBack
 		{
 			FileWriter writeOutToFile = new FileWriter(directoryAndFileDotExt, appendToExistingFile);
 			
-			writeOutToFile.write(userActualName + "," + userActualAge + "," + userRedditUsername + System.getProperty("line.separator"));
+			writeOutToFile.write(getFormattedInfoString("", ",", ",") + System.getProperty("line.separator"));
 			
 			writeOutToFile.close();
 		} catch (IOException e)
@@ -83,15 +102,22 @@ public class RepeatInfoBack
 	}
 	
 	/**
-	 *
+	 * <p>Returns a string containing the instance variables, interleaved with the three input strings.</p>
+	 * <p>Potential task, complete method removal.</p>
+	 * 
+	 * @param sepOne First separator, the start of the return string.
+	 * @param sepTwo Second separator.
+	 * @param sepThree Third separator.
+	 * @return String formatted with separators interleaved. 
+	 * @see njsgh.rdpe.repeatinfoback
 	 */
-	public String getFormattedInfoString()
+	public String getFormattedInfoString(String sepOne, String sepTwo, String sepThree)
 	{
-		return "your name is " + userActualName + ", you are " + userActualAge + " years old, and your username is " + userRedditUsername;
+		return sepOne + userActualName + sepTwo + userActualAge + sepThree + userRedditUsername;
 	}
 	
 	/**
-	 * Returns the instance variable holding the user's actual name.
+	 * <p>Returns the instance variable holding the user's actual name.</p>
 	 * 
 	 * @return userActualName
 	 */
@@ -101,7 +127,10 @@ public class RepeatInfoBack
 	}
 
 	/**
-	 * @param userActualName the userActualName to set
+	 * <p>Sets the instance variable to the sole input String, no validation enforced.</p>
+	 * <p>Potential task, extend code to validate data.</p>
+	 * 
+	 * @param userActualName Assigned to instance variable.
 	 */
 	public void setUserActualName(String userActualName)
 	{
@@ -109,9 +138,9 @@ public class RepeatInfoBack
 	}
 
 	/**
-	 * Returns the instance variable holding the user's actual age.
+	 * <p>Returns the instance variable holding the user's actual age.</p>
 	 * 
-	 * @return the userActualAge
+	 * @return userActualAge
 	 */
 	public int getUserActualAge()
 	{
@@ -119,7 +148,10 @@ public class RepeatInfoBack
 	}
 
 	/**
-	 * @param userActualAge the userActualAge to set
+	 * <p>Sets the instance variable to the sole input String, no validation enforced.</p>
+	 * <p>Potential task, extend code to validate data.</p>
+	 * 
+	 * @param userActualAge Assigned to instance variable.
 	 */
 	public void setUserActualAge(int userActualAge)
 	{
@@ -127,9 +159,9 @@ public class RepeatInfoBack
 	}
 	
 	/**
-	 * Returns the instance variable holding the user's Reddit username.
+	 * <p>Returns the instance variable holding the user's Reddit username.</p>
 	 * 
-	 * @return the userRedditUsername
+	 * @return userRedditUsername
 	 */
 	public String getUserRedditUsername()
 	{
@@ -137,7 +169,10 @@ public class RepeatInfoBack
 	}
 	
 	/**
-	 * @param userRedditUsername the userRedditUsername to set
+	 * <p>Sets the instance variable to the sole input String, no validation enforced.</p>
+	 * <p>Potential task, extend code to validate data.</p>
+	 * 
+	 * @param userRedditUsername Assigned to instance variable.
 	 */
 	public void setUserRedditUsername(String userRedditUsername)
 	{
