@@ -1,6 +1,3 @@
-/**
- * 
- */
 package njsgh.rdpe.personallyusefulcalculator;
 
 import java.util.Arrays;
@@ -9,91 +6,103 @@ import java.util.Arrays;
  * @author bia
  *
  */
-public class SystemOfUnits
+public class SystemOfMeasurement
 {
-	private String systemOfUnitsTitle, systemOfUnitsContext;
+	private String systemOfMeasurementTitle, systemOfMeasurementContext;
 	private String[] arrayOfUnitsUnabbrDesc, arrayOfUnitsAbbrDesc;
 	private int[] relativeToNextUnitDown;
 	
-	private boolean systemTitleAndContextCreatedCorrectly;
+	private boolean titleAndContextCreatedCorrectly, relationsCreatedCorrectly, objectInstantiatedCorrectly;
 	private String whichUnitsCreatedCorrectly;
-	private boolean relationsCreatedCorrectly;
-	private boolean objectCreatedCorrectly;
-	
 	/**
 	 * 
 	 */
-	public SystemOfUnits(String systemOfUnitsTitle, String systemOfUnitsContext, String[] arrayOfUnitsUnabbrDesc, String[] arrayOfUnitsAbbrDesc, int[] relativeToNextUnitDown)
+	public SystemOfMeasurement(String systemOfMeasurementTitle, String systemOfMeasurementContext, String[] arrayOfUnitsUnabbrDesc, String[] arrayOfUnitsAbbrDesc, int[] relativeToNextUnitDown)
 	{
-		this.systemOfUnitsTitle = systemOfUnitsTitle;
-		this.systemOfUnitsContext = systemOfUnitsContext;
+		this.systemOfMeasurementTitle = systemOfMeasurementTitle;
+		this.systemOfMeasurementContext = systemOfMeasurementContext;
 		this.arrayOfUnitsUnabbrDesc = arrayOfUnitsUnabbrDesc;
 		this.arrayOfUnitsAbbrDesc = arrayOfUnitsAbbrDesc;
 		this.relativeToNextUnitDown = relativeToNextUnitDown;
 		
-		systemTitleAndContextCreatedCorrectly = checkSystemTitleAndContextCreatedCorrectly();
+		titleAndContextCreatedCorrectly = checkTitleAndContextCreatedCorrectly();
 		whichUnitsCreatedCorrectly = checkUnitsCreatedCorrectly();
 		relationsCreatedCorrectly = checkRelationsCreatedCorrectly();
-		objectCreatedCorrectly = checkObjectCreatedCorrectly();
+		objectInstantiatedCorrectly = checkObjectInstantiatedCorrectly();
 	}
 	
-	public SystemOfUnits(String titleToSystemOfUnits, String systemOfUnitsContext, String stringOfUnitsUnabbrDescCSV,  String stringOfUnitsAbbrDescCSV, String relativeToNextUnitDownCSV, String splitter)
+	/**
+	 * 
+	 */
+	public SystemOfMeasurement(String systemOfMeasurementTitle, String systemOfMeasurementContext, String stringOfUnitsUnabbrDescCSV,  String stringOfUnitsAbbrDescCSV, String relativeToNextUnitDownCSV, String splitter)
 	{
-		this.systemOfUnitsTitle = titleToSystemOfUnits;
-		this.systemOfUnitsContext = systemOfUnitsContext;
+		this.systemOfMeasurementTitle = systemOfMeasurementTitle;
+		this.systemOfMeasurementContext = systemOfMeasurementContext;
 		arrayOfUnitsUnabbrDesc = stringOfUnitsUnabbrDescCSV.split(splitter);
 		arrayOfUnitsAbbrDesc = stringOfUnitsAbbrDescCSV.split(splitter);
 		relativeToNextUnitDown = stringArrayToIntArray(relativeToNextUnitDownCSV.split(splitter));
 		
-		systemTitleAndContextCreatedCorrectly = checkSystemTitleAndContextCreatedCorrectly();
+		titleAndContextCreatedCorrectly = checkTitleAndContextCreatedCorrectly();
 		whichUnitsCreatedCorrectly = checkUnitsCreatedCorrectly();
 		relationsCreatedCorrectly = checkRelationsCreatedCorrectly();
-		objectCreatedCorrectly = checkObjectCreatedCorrectly();
+		objectInstantiatedCorrectly = checkObjectInstantiatedCorrectly();
 	}
-
+	
+	/**
+	 * 
+	 */
 	public double convertWithinSystem(double valueToConvert, String fromUnit, String toUnit)
 	{
-		if(objectCreatedCorrectly)
+		if(objectInstantiatedCorrectly)
 		{
-			return valueToConvert * getFactorFromStrings(fromUnit, toUnit);
+			return valueToConvert * getRelativeToFromStrings(fromUnit, toUnit);
 		} else return -1.0;
 	}
 	
-	public double getFactorFromStrings(String fromUnitString, String toUnitString)
+	/**
+	 * 
+	 */
+	public double getRelativeToFromStrings(String fromUnitString, String toUnitString)
 	{
-		if(objectCreatedCorrectly)
+		if(objectInstantiatedCorrectly)
 		{
 			if(fromUnitString.equalsIgnoreCase(toUnitString))
 			{
-				return getFactorFromIndexes(getIndexOfUnitValue(fromUnitString), getIndexOfUnitValue(toUnitString));
-			}else return 1.0;
-		} else return -1.0;
+				return getRelativeToFromIndexes(getIndexOfUnitValue(fromUnitString), getIndexOfUnitValue(toUnitString));
+			}else return 11.0;
+		} else return 1.0;
 	}
 	
-	public double getFactorFromIndexes(int fromUnitIndex, int toUnitIndex)
+	/**
+	 * 
+	 */
+	public double getRelativeToFromIndexes(int fromUnitIndex, int toUnitIndex)
 	{	
 		if(fromUnitIndex != toUnitIndex)
 		{
 			boolean convertingDownwardsInScale = fromUnitIndex < toUnitIndex;
-			double returnFactor = 1;
+			double returnRelativeTo = 1;
 			if(convertingDownwardsInScale)
 			{
 				for(int index = fromUnitIndex; index < toUnitIndex; index++)
 				{
-					returnFactor *= relativeToNextUnitDown[index];
+					returnRelativeTo *= relativeToNextUnitDown[index];
 				}
-				return returnFactor;
+				return returnRelativeTo;
 			}else 
 			{
 				for(int index = fromUnitIndex-1; index >= toUnitIndex; index--)
 				{
-					returnFactor /= relativeToNextUnitDown[index];
+					returnRelativeTo /= relativeToNextUnitDown[index];
 				}
-				return returnFactor;
+				return returnRelativeTo;
 			}
 		}else return 1.0;
 	}
 	
+	/**
+	 * 
+	 */
 	public int getIndexOfUnitValue(String unitToFind)
 	{
 		int searchInUnabbrForIndex = getIndexOfUnitValue(unitToFind, arrayOfUnitsUnabbrDesc);
@@ -106,6 +115,9 @@ public class SystemOfUnits
 		}
 	}
 	
+	/**
+	 * 
+	 */
 	public int getIndexOfUnitValue(String unitToFind, String[] inThisArray)
 	{
 		for(int index = 0; index < inThisArray.length; index++)
@@ -119,21 +131,21 @@ public class SystemOfUnits
 	}
 	
 	/**
-	 * @return the titleToSystemOfUnits
+	 * @return the titleToSystemOfMeasurement
 	 */
-	public String getSystemOfUnitsTitle()
+	public String getSystemOfMeasurementTitle()
 	{
-		return systemOfUnitsTitle;
+		return systemOfMeasurementTitle;
 	}
 	
 	/**
 	 * @return the quantityName
 	 */
-	public String getSystemOfUnitsContext()
+	public String getSystemOfMeasurementContext()
 	{
-		return systemOfUnitsContext;
+		return systemOfMeasurementContext;
 	}
-
+	
 	/**
 	 * @return the arrayOfUnitsUnabbrDesc
 	 */
@@ -141,7 +153,7 @@ public class SystemOfUnits
 	{
 		return arrayOfUnitsUnabbrDesc;
 	}
-
+	
 	/**
 	 * @return the arrayOfUnitsAbbrDesc
 	 */
@@ -149,7 +161,7 @@ public class SystemOfUnits
 	{
 		return arrayOfUnitsAbbrDesc;
 	}
-
+	
 	/**
 	 * @return the relativeToNextUnitDown
 	 */
@@ -157,18 +169,18 @@ public class SystemOfUnits
 	{
 		return relativeToNextUnitDown;
 	}
-
+	
 	/**
-	 * @param titleToSystemOfUnits the titleToSystemOfUnits to set
+	 * @param titleToSystemOfMeasurement the titleToSystemOfMeasurement to set
 	 */
-	public void setSystemTitleAndContext(String systemOfUnitsTitle, String systemOfUnitsContext)
+	public void setSystemTitleAndContext(String SystemOfMeasurementTitle, String SystemOfMeasurementContext)
 	{
-		this.systemOfUnitsTitle = systemOfUnitsTitle;
-		this.systemOfUnitsContext = systemOfUnitsContext;
-		systemTitleAndContextCreatedCorrectly = checkSystemTitleAndContextCreatedCorrectly();
-		objectCreatedCorrectly = checkObjectCreatedCorrectly();
+		this.systemOfMeasurementTitle = SystemOfMeasurementTitle;
+		this.systemOfMeasurementContext = SystemOfMeasurementContext;
+		titleAndContextCreatedCorrectly = checkTitleAndContextCreatedCorrectly();
+		objectInstantiatedCorrectly = checkObjectInstantiatedCorrectly();
 	}
-
+	
 	/**
 	 * @param arrayOfUnitsUnabbrDesc the arrayOfUnitsUnabbrDesc to set
 	 */
@@ -176,9 +188,9 @@ public class SystemOfUnits
 	{
 		this.arrayOfUnitsUnabbrDesc = arrayOfUnitsUnabbrDesc;
 		whichUnitsCreatedCorrectly = checkUnitsCreatedCorrectly();
-		objectCreatedCorrectly = checkObjectCreatedCorrectly();
+		objectInstantiatedCorrectly = checkObjectInstantiatedCorrectly();
 	}
-
+	
 	/**
 	 * @param arrayOfUnitsAbbrDesc the arrayOfUnitsAbbrDesc to set
 	 */
@@ -186,10 +198,10 @@ public class SystemOfUnits
 	{
 		this.arrayOfUnitsAbbrDesc = arrayOfUnitsAbbrDesc;
 		whichUnitsCreatedCorrectly = checkUnitsCreatedCorrectly();
-		objectCreatedCorrectly = checkObjectCreatedCorrectly();
+		objectInstantiatedCorrectly = checkObjectInstantiatedCorrectly();
 		
 	}
-
+	
 	/**
 	 * @param relativeToNextUnitDown the relativeToNextUnitDown to set
 	 */
@@ -197,10 +209,14 @@ public class SystemOfUnits
 	{
 		this.relativeToNextUnitDown = relativeToNextUnitDown;
 		relationsCreatedCorrectly = checkRelationsCreatedCorrectly(); 
-		objectCreatedCorrectly = checkObjectCreatedCorrectly();
+		objectInstantiatedCorrectly = checkObjectInstantiatedCorrectly();
 		
 	}
-	
+	/**
+	 * 
+	 * @param unsanitisedStringArray
+	 * @return
+	 */
 	public int[] stringArrayToIntArray(String[] unsanitisedStringArray)
 	{
 		int[] buildArrayToReturn = new int[unsanitisedStringArray.length];
@@ -217,11 +233,19 @@ public class SystemOfUnits
 		return buildArrayToReturn;
 	}
 	
-	public boolean checkSystemTitleAndContextCreatedCorrectly()
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean checkTitleAndContextCreatedCorrectly()
 	{
-		return !systemOfUnitsTitle.isBlank() && !systemOfUnitsContext.isBlank();
+		return !systemOfMeasurementTitle.isBlank() && !systemOfMeasurementContext.isBlank();
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public String checkUnitsCreatedCorrectly()
 	{
 		if((arrayOfUnitsUnabbrDesc.length == 0 || arrayOfUnitsUnabbrDesc.length == 1) && (arrayOfUnitsAbbrDesc.length == 0 || arrayOfUnitsAbbrDesc.length == 1))
@@ -249,6 +273,11 @@ public class SystemOfUnits
 		}else return "INCCONST";
 	}
 	
+	/**
+	 * 
+	 * @param testDupesArrayOfUnits
+	 * @return
+	 */
 	public boolean checkUnitsDistinct(String[] testDupesArrayOfUnits)
 	{
 		String[] workingCopy = Arrays.copyOf(testDupesArrayOfUnits, testDupesArrayOfUnits.length);
@@ -263,16 +292,29 @@ public class SystemOfUnits
 		return true;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public boolean checkRelationsCreatedCorrectly()
 	{
 		return !whichUnitsCreatedCorrectly.equals("INCCONST") && relativeToNextUnitDown.length != 0 && (relativeToNextUnitDown.length == arrayOfUnitsUnabbrDesc.length-1 || relativeToNextUnitDown.length == arrayOfUnitsAbbrDesc.length-1);
 	}
 	
-	public boolean checkObjectCreatedCorrectly()
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean checkObjectInstantiatedCorrectly()
 	{
-		return checkSystemTitleAndContextCreatedCorrectly() && !whichUnitsCreatedCorrectly.equals("INCCONST") && relationsCreatedCorrectly;
+		return checkTitleAndContextCreatedCorrectly() && !whichUnitsCreatedCorrectly.equals("INCCONST") && relationsCreatedCorrectly;
 	}
 	
+	/**
+	 * 
+	 * @param notQuiteCSV
+	 * @return
+	 */
 	public static String removeLeadAndTrailSquareBrackets(String notQuiteCSV)
 	{
 		notQuiteCSV = !notQuiteCSV.isBlank() ? notQuiteCSV.substring(notQuiteCSV.indexOf("[")+1, notQuiteCSV.lastIndexOf("]")) : notQuiteCSV;
@@ -285,12 +327,13 @@ public class SystemOfUnits
 	@Override
 	public String toString()
 	{
-		return "SystemOfUnits [systemOfUnitsTitle=" + systemOfUnitsTitle + ", systemOfUnitsContext="
-				+ systemOfUnitsContext + ", arrayOfUnitsUnabbrDesc=" + Arrays.toString(arrayOfUnitsUnabbrDesc)
-				+ ", arrayOfUnitsAbbrDesc=" + Arrays.toString(arrayOfUnitsAbbrDesc) + ", relativeToNextUnitDown="
-				+ Arrays.toString(relativeToNextUnitDown) + ", systemTitleAndContextCreatedCorrectly="
-				+ systemTitleAndContextCreatedCorrectly + ", whichUnitsCreatedCorrectly=" + whichUnitsCreatedCorrectly
-				+ ", relationsCreatedCorrectly=" + relationsCreatedCorrectly + ", objectCreatedCorrectly="
-				+ objectCreatedCorrectly + "]";
+		return "SystemOfMeasurement [systemOfMeasurementTitle=" + systemOfMeasurementTitle
+				+ ", systemOfMeasurementContext=" + systemOfMeasurementContext + ", arrayOfUnitsUnabbrDesc="
+				+ Arrays.toString(arrayOfUnitsUnabbrDesc) + ", arrayOfUnitsAbbrDesc="
+				+ Arrays.toString(arrayOfUnitsAbbrDesc) + ", relativeToNextUnitDown="
+				+ Arrays.toString(relativeToNextUnitDown) + ", titleAndContextCreatedCorrectly="
+				+ titleAndContextCreatedCorrectly + ", relationsCreatedCorrectly=" + relationsCreatedCorrectly
+				+ ", objectInstantiatedCorrectly=" + objectInstantiatedCorrectly + ", whichUnitsCreatedCorrectly="
+				+ whichUnitsCreatedCorrectly + "]";
 	}
 }

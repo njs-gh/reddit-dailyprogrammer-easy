@@ -9,7 +9,7 @@ package njsgh.rdpe.personallyusefulcalculator;
  */
 public class BaseUnitConversion
 {
-	private SystemOfUnits convertFrom, convertTo;
+	private SystemOfMeasurement convertFrom, convertTo;
 	private boolean sameContext;
 	private double baseUnitFactor;
 	
@@ -17,11 +17,11 @@ public class BaseUnitConversion
 	/**
 	 * 
 	 */
-	public BaseUnitConversion(SystemOfUnits convertFrom, SystemOfUnits convertTo, double baseUnitFactor)
+	public BaseUnitConversion(SystemOfMeasurement convertFrom, SystemOfMeasurement convertTo, double baseUnitFactor)
 	{
 		this.convertFrom = convertFrom;
 		this.convertTo = convertTo;
-		sameContext = convertFrom.getSystemOfUnitsContext().equals(convertTo.getSystemOfUnitsContext());
+		this.sameContext = this.convertFrom.getSystemOfMeasurementContext().equals(this.convertTo.getSystemOfMeasurementContext());
 		this.baseUnitFactor = baseUnitFactor;
 	}
 	
@@ -29,9 +29,9 @@ public class BaseUnitConversion
 	{ 
 		if(sameContext)
 		{
-			double convertFromToSystemBase = valueToConvert * convertFrom.getFactorFromIndexes(convertFrom.getIndexOfUnitValue(fromUnit), convertFrom.getRelativeToNextUnitDown().length);
+			double convertFromToSystemBase = valueToConvert * convertFrom.getRelativeToFromIndexes(convertFrom.getIndexOfUnitValue(fromUnit), convertFrom.getRelativeToNextUnitDown().length);
 			double convertBaseToBase = convertFromToSystemBase * baseUnitFactor;
-			double convertBaseToTargetUnit = convertBaseToBase * convertTo.getFactorFromIndexes(convertTo.getRelativeToNextUnitDown().length, convertTo.getIndexOfUnitValue(toUnit));
+			double convertBaseToTargetUnit = convertBaseToBase * convertTo.getRelativeToFromIndexes(convertTo.getRelativeToNextUnitDown().length, convertTo.getIndexOfUnitValue(toUnit));
 			return convertBaseToTargetUnit;
 		}else return -1.0;
 	}

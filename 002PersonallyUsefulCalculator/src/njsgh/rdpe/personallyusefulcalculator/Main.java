@@ -14,9 +14,6 @@
  *  	EXTRA CREDIT: make the calculator have multiple functions! Not only should it be able to calculate F = M * A, but also A = F/M, and M = F/A!
  */
 
-/**
- * 
- */
 package njsgh.rdpe.personallyusefulcalculator;
 
 import java.util.Arrays;
@@ -32,14 +29,14 @@ public class Main
 	 */
 	public static void main(String[] args)
 	{
-		SystemOfUnits iSU = new SystemOfUnits("International System of Units", "Length", "", "km, m, cm, mm", "1000, 100, 10", ", ");
-		SystemOfUnits bI = new SystemOfUnits("Britsh Imperial", "Length", "league, mile, furlong, chain, yard, foot, inch, thou", "", "3, 8, 10, 22, 3, 12, 1000", ", ");
-//		System.out.println(iSU.toString());
-//		System.out.println(bI.toString());
-//		System.out.println(iSU.convertWithinSystem(1, "km", "mm"));
-//		System.out.println(iSU.convertWithinSystem(1, "mm", "km"));
-//		System.out.println(bI.convertWithinSystem(1, "league", "foot"));
-//		System.out.println(bI.convertWithinSystem(3, "foot", "chain"));
+		SystemOfMeasurement iSU = new SystemOfMeasurement("International System of Units", "Length", "", "km, m, cm, mm", "1000, 100, 10", ", ");
+		SystemOfMeasurement bI = new SystemOfMeasurement("Britsh Imperial", "Length", "league, mile, furlong, chain, yard, foot, inch, thou", "", "3, 8, 10, 22, 3, 12, 1000", ", ");
+		System.out.println(iSU.toString());
+		System.out.println(bI.toString());
+		System.out.println(iSU.convertWithinSystem(1, "km", "mm"));
+		System.out.println(iSU.convertWithinSystem(1, "mm", "km"));
+		System.out.println(bI.convertWithinSystem(1, "league", "foot"));
+		System.out.println(bI.convertWithinSystem(3, "foot", "chain"));
 		
 		BaseUnitConversion bIToISU= new BaseUnitConversion(bI, iSU, 0.0254);
 		System.out.println(bIToISU.convertBetweenSystems(1, "mile", "km"));
