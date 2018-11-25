@@ -3,8 +3,13 @@ package njsgh.rdpe.personallyusefulcalculator;
 import java.util.Arrays;
 
 /**
- * @author bia
- *
+ *  <p>Should be able to represent any System of Measurement, containing more than one unit, where there's some integer multiple to convert between units.</p>
+ *  <p>IE: International System of Units, Length, ["km", "m", "cm", "mm"], [1000, 100, 10]</p>
+ *  <p>Potential task, convert relations array to double.</p>
+ *  
+ *  @author <a href="njs-pm@protonmail.ch">Nicholas Seaborn</a>
+ *  @see njsgh.rdpe.personallyusefulcalculator
+ *  @version 2018.11.24
  */
 public class SystemOfMeasurement
 {
@@ -14,6 +19,7 @@ public class SystemOfMeasurement
 	
 	private boolean titleAndContextCreatedCorrectly, relationsCreatedCorrectly, objectInstantiatedCorrectly;
 	private String whichUnitsCreatedCorrectly;
+	
 	/**
 	 * 
 	 */
@@ -131,46 +137,6 @@ public class SystemOfMeasurement
 	}
 	
 	/**
-	 * @return the titleToSystemOfMeasurement
-	 */
-	public String getSystemOfMeasurementTitle()
-	{
-		return systemOfMeasurementTitle;
-	}
-	
-	/**
-	 * @return the quantityName
-	 */
-	public String getSystemOfMeasurementContext()
-	{
-		return systemOfMeasurementContext;
-	}
-	
-	/**
-	 * @return the arrayOfUnitsUnabbrDesc
-	 */
-	public String[] getArrayOfUnitsUnabbrDesc()
-	{
-		return arrayOfUnitsUnabbrDesc;
-	}
-	
-	/**
-	 * @return the arrayOfUnitsAbbrDesc
-	 */
-	public String[] getArrayOfUnitsAbbrDesc()
-	{
-		return arrayOfUnitsAbbrDesc;
-	}
-	
-	/**
-	 * @return the relativeToNextUnitDown
-	 */
-	public int[] getRelativeToNextUnitDown()
-	{
-		return relativeToNextUnitDown;
-	}
-	
-	/**
 	 * @param titleToSystemOfMeasurement the titleToSystemOfMeasurement to set
 	 */
 	public void setSystemTitleAndContext(String SystemOfMeasurementTitle, String SystemOfMeasurementContext)
@@ -212,7 +178,9 @@ public class SystemOfMeasurement
 		objectInstantiatedCorrectly = checkObjectInstantiatedCorrectly();
 		
 	}
+	
 	/**
+	 * <p>Method to check </p>
 	 * 
 	 * @param unsanitisedStringArray
 	 * @return
@@ -234,6 +202,7 @@ public class SystemOfMeasurement
 	}
 	
 	/**
+	 * <p>Method to check </p>
 	 * 
 	 * @return
 	 */
@@ -243,6 +212,27 @@ public class SystemOfMeasurement
 	}
 	
 	/**
+ 	 * <p>Method to check </p>
+	 * 
+	 * @param testDupesArrayOfUnits
+	 * @return
+	 */
+	public boolean checkUnitsDistinct(String[] testDupesArrayOfUnits)
+	{
+		String[] workingCopy = Arrays.copyOf(testDupesArrayOfUnits, testDupesArrayOfUnits.length);
+		Arrays.sort(workingCopy);
+		for(int index = 0; index<workingCopy.length-1; index++)
+		{
+			if(workingCopy[index].equalsIgnoreCase(workingCopy[index+1]))
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	/**
+	 * <p>Method to check </p>
 	 * 
 	 * @return
 	 */
@@ -274,25 +264,7 @@ public class SystemOfMeasurement
 	}
 	
 	/**
-	 * 
-	 * @param testDupesArrayOfUnits
-	 * @return
-	 */
-	public boolean checkUnitsDistinct(String[] testDupesArrayOfUnits)
-	{
-		String[] workingCopy = Arrays.copyOf(testDupesArrayOfUnits, testDupesArrayOfUnits.length);
-		Arrays.sort(workingCopy);
-		for(int index = 0; index<workingCopy.length-1; index++)
-		{
-			if(workingCopy[index].equalsIgnoreCase(workingCopy[index+1]))
-			{
-				return false;
-			}
-		}
-		return true;
-	}
-	
-	/**
+	 * <p>Method to check </p>
 	 * 
 	 * @return
 	 */
@@ -302,27 +274,36 @@ public class SystemOfMeasurement
 	}
 	
 	/**
+	 * <p>Method to check if the System of Measurement object has been instantiated correctly.</p>
+	 * <p>This is achieved by calling all other "check" methods, and returns true if those other methods do.</p>
 	 * 
-	 * @return
+	 * @return True, if object has been instantiated correctly, such that successful use can occur.
 	 */
 	public boolean checkObjectInstantiatedCorrectly()
 	{
-		return checkTitleAndContextCreatedCorrectly() && !whichUnitsCreatedCorrectly.equals("INCCONST") && relationsCreatedCorrectly;
+		return checkTitleAndContextCreatedCorrectly() && !checkUnitsCreatedCorrectly().equals("INCCONST") && checkRelationsCreatedCorrectly();
 	}
 	
 	/**
+	 * <p>Removes the pre and proceeding opening/closing square bracket, typically found with the return from primitiveArray.toString().</p>
+	 * <p>Check first if the sole parameter is empty, if it's length is greater than 2 (ie, avoid "[]") and if it begins with [ and ends with ].</p>
+	 * <p>Failing this, the input parameter is returned.</p>
+	 * <p>Not used within class itself, useful in the case where object-constructive strings are needed to be retrieved.</p>
 	 * 
-	 * @param notQuiteCSV
-	 * @return
+	 * @param notQuiteCSV "[result,of,array.toString()]"
+	 * @return perhapsCSV "result,of,array.toString()"
 	 */
 	public static String removeLeadAndTrailSquareBrackets(String notQuiteCSV)
 	{
-		notQuiteCSV = !notQuiteCSV.isBlank() ? notQuiteCSV.substring(notQuiteCSV.indexOf("[")+1, notQuiteCSV.lastIndexOf("]")) : notQuiteCSV;
-		return notQuiteCSV;
+		String perhapsCSV = (!notQuiteCSV.isBlank() && notQuiteCSV.length() > 2 && notQuiteCSV.indexOf("[") == 0 && notQuiteCSV.lastIndexOf("[") == notQuiteCSV.length()) ? notQuiteCSV.substring(1, notQuiteCSV.length()-1) : notQuiteCSV;
+		return perhapsCSV;
 	}
-
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
+	
+	/**
+	 * <p>Eclipse source-generated Object/Class.toString().</p>
+	 * <p>Not used within class itself, useful to expose class state for use/debugging outside.<p>
+	 * 
+	 * @return String Current object state.
 	 */
 	@Override
 	public String toString()
@@ -335,5 +316,96 @@ public class SystemOfMeasurement
 				+ titleAndContextCreatedCorrectly + ", relationsCreatedCorrectly=" + relationsCreatedCorrectly
 				+ ", objectInstantiatedCorrectly=" + objectInstantiatedCorrectly + ", whichUnitsCreatedCorrectly="
 				+ whichUnitsCreatedCorrectly + "]";
+	}
+	
+	/**
+	 * <p>Returns the instance variable holding the title to the System of Measurement.</p>
+	 * 
+	 * @return the systemOfMeasurementTitle
+	 */
+	public String getSystemOfMeasurementTitle()
+	{
+		return systemOfMeasurementTitle;
+	}
+	
+	/**
+	 * <p>Returns the instance variable holding the context to the System of Measurement.</p>
+	 * 
+	 * @return systemOfMeasurementContext
+	 */
+	public String getSystemOfMeasurementContext()
+	{
+		return systemOfMeasurementContext;
+	}
+	
+	/**
+	 * <p>Returns the instance variable holding the String array of unabbreviated units.</p>
+	 * 
+	 * @return arrayOfUnitsUnabbrDesc
+	 */
+	public String[] getArrayOfUnitsUnabbrDesc()
+	{
+		return arrayOfUnitsUnabbrDesc;
+	}
+	
+	/**
+	 * <p>Returns the instance variable holding the String array of abbreviated units.</p>
+	 * 
+	 * @return arrayOfUnitsAbbrDesc
+	 */
+	public String[] getArrayOfUnitsAbbrDesc()
+	{
+		return arrayOfUnitsAbbrDesc;
+	}
+	
+	/**
+	 * <p>Returns the instance variable holding the integer array of unit relations.</p>
+	 * 
+	 * @return relativeToNextUnitDown
+	 */
+	public int[] getRelativeToNextUnitDown()
+	{
+		return relativeToNextUnitDown;
+	}
+	
+	
+	/**
+	 * <p>Returns the instance variable holding whether the System of Measurement title and context have been created correctly. .</p>
+	 * 
+	 * @return titleAndContextCreatedCorrectly
+	 */
+	public boolean isTitleAndContextCreatedCorrectly()
+	{
+		return titleAndContextCreatedCorrectly;
+	}
+
+	/**
+	 * <p>Returns the instance variable holding which units have been declared correctly.</p>
+	 * 
+	 * @return whichUnitsCreatedCorrectly Values: "INCCNST", "UNABBR", "ABBR", "BOTH".
+	 */
+	public String getWhichUnitsCreatedCorrectly()
+	{
+		return whichUnitsCreatedCorrectly;
+	}
+	
+	/**
+	 * <p>Returns the instance variable holding whether the unit's relations have been created correctly.</p>
+	 * 
+	 * @return relationsCreatedCorrectly
+	 */
+	public boolean isRelationsCreatedCorrectly()
+	{
+		return relationsCreatedCorrectly;
+	}
+	
+	/**
+	 * <p>Returns the instance variable holding whether the object has been instantiated correctly, and is in compliance for use with object methods.</p>
+	 * 
+	 * @return objectInstantiatedCorrectly
+	 */
+	public boolean isObjectInstantiatedCorrectly()
+	{
+		return objectInstantiatedCorrectly;
 	}
 }
