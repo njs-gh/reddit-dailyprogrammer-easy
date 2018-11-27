@@ -13,17 +13,19 @@ import java.util.Arrays;
  */
 public class SystemOfMeasurement
 {
+//INSTANCE VARIABLES
 	private String systemOfMeasurementTitle, systemOfMeasurementContext;
 	private String[] arrayOfUnitsUnabbrDesc, arrayOfUnitsAbbrDesc;
-	private int[] relativeToNextUnitDown;
+	private double[] relativeToNextUnitDown;
 	
 	private boolean titleAndContextCreatedCorrectly, relationsCreatedCorrectly, objectInstantiatedCorrectly;
 	private String whichUnitsCreatedCorrectly;
 	
+//CONSTRUCTORS
 	/**
 	 * 
 	 */
-	public SystemOfMeasurement(String systemOfMeasurementTitle, String systemOfMeasurementContext, String[] arrayOfUnitsUnabbrDesc, String[] arrayOfUnitsAbbrDesc, int[] relativeToNextUnitDown)
+	public SystemOfMeasurement(String systemOfMeasurementTitle, String systemOfMeasurementContext, String[] arrayOfUnitsUnabbrDesc, String[] arrayOfUnitsAbbrDesc, double[] relativeToNextUnitDown)
 	{
 		this.systemOfMeasurementTitle = systemOfMeasurementTitle;
 		this.systemOfMeasurementContext = systemOfMeasurementContext;
@@ -46,7 +48,7 @@ public class SystemOfMeasurement
 		this.systemOfMeasurementContext = systemOfMeasurementContext;
 		arrayOfUnitsUnabbrDesc = stringOfUnitsUnabbrDescCSV.split(splitter);
 		arrayOfUnitsAbbrDesc = stringOfUnitsAbbrDescCSV.split(splitter);
-		relativeToNextUnitDown = stringArrayToIntArray(relativeToNextUnitDownCSV.split(splitter));
+		relativeToNextUnitDown = stringArrayToDoubleArray(relativeToNextUnitDownCSV.split(splitter));
 		
 		titleAndContextCreatedCorrectly = checkTitleAndContextCreatedCorrectly();
 		whichUnitsCreatedCorrectly = checkUnitsCreatedCorrectly();
@@ -54,6 +56,7 @@ public class SystemOfMeasurement
 		objectInstantiatedCorrectly = checkObjectInstantiatedCorrectly();
 	}
 	
+//INSTANCE METHODS
 	/**
 	 * 
 	 */
@@ -75,7 +78,7 @@ public class SystemOfMeasurement
 			if(fromUnitString.equalsIgnoreCase(toUnitString))
 			{
 				return getRelativeToFromIndexes(getIndexOfUnitValue(fromUnitString), getIndexOfUnitValue(toUnitString));
-			}else return 11.0;
+			}else return 1.0;
 		} else return 1.0;
 	}
 	
@@ -137,57 +140,14 @@ public class SystemOfMeasurement
 	}
 	
 	/**
-	 * @param titleToSystemOfMeasurement the titleToSystemOfMeasurement to set
-	 */
-	public void setSystemTitleAndContext(String SystemOfMeasurementTitle, String SystemOfMeasurementContext)
-	{
-		this.systemOfMeasurementTitle = SystemOfMeasurementTitle;
-		this.systemOfMeasurementContext = SystemOfMeasurementContext;
-		titleAndContextCreatedCorrectly = checkTitleAndContextCreatedCorrectly();
-		objectInstantiatedCorrectly = checkObjectInstantiatedCorrectly();
-	}
-	
-	/**
-	 * @param arrayOfUnitsUnabbrDesc the arrayOfUnitsUnabbrDesc to set
-	 */
-	public void setArrayOfUnitsUnabbrDesc(String[] arrayOfUnitsUnabbrDesc)
-	{
-		this.arrayOfUnitsUnabbrDesc = arrayOfUnitsUnabbrDesc;
-		whichUnitsCreatedCorrectly = checkUnitsCreatedCorrectly();
-		objectInstantiatedCorrectly = checkObjectInstantiatedCorrectly();
-	}
-	
-	/**
-	 * @param arrayOfUnitsAbbrDesc the arrayOfUnitsAbbrDesc to set
-	 */
-	public void setArrayOfUnitsAbbrDesc(String[] arrayOfUnitsAbbrDesc)
-	{
-		this.arrayOfUnitsAbbrDesc = arrayOfUnitsAbbrDesc;
-		whichUnitsCreatedCorrectly = checkUnitsCreatedCorrectly();
-		objectInstantiatedCorrectly = checkObjectInstantiatedCorrectly();
-		
-	}
-	
-	/**
-	 * @param relativeToNextUnitDown the relativeToNextUnitDown to set
-	 */
-	public void setRelativeToNextUnitDown(int[] relativeToNextUnitDown)
-	{
-		this.relativeToNextUnitDown = relativeToNextUnitDown;
-		relationsCreatedCorrectly = checkRelationsCreatedCorrectly(); 
-		objectInstantiatedCorrectly = checkObjectInstantiatedCorrectly();
-		
-	}
-	
-	/**
 	 * <p>Method to check </p>
 	 * 
 	 * @param unsanitisedStringArray
 	 * @return
 	 */
-	public int[] stringArrayToIntArray(String[] unsanitisedStringArray)
+	public double[] stringArrayToDoubleArray(String[] unsanitisedStringArray)
 	{
-		int[] buildArrayToReturn = new int[unsanitisedStringArray.length];
+		double[] buildArrayToReturn = new double[unsanitisedStringArray.length];
 		for(int index = 0; index < unsanitisedStringArray.length; index++)
 		{
 			try
@@ -195,29 +155,20 @@ public class SystemOfMeasurement
 				buildArrayToReturn[index] = Integer.parseInt(unsanitisedStringArray[index]);
 			} catch (NumberFormatException e)
 			{
-				return new int[0];
+				return new double[0];
 			}
 		}
 		return buildArrayToReturn;
 	}
 	
-	/**
-	 * <p>Method to check </p>
-	 * 
-	 * @return
-	 */
-	public boolean checkTitleAndContextCreatedCorrectly()
-	{
-		return !systemOfMeasurementTitle.isBlank() && !systemOfMeasurementContext.isBlank();
-	}
-	
+//STATIC METHODS
 	/**
  	 * <p>Method to check </p>
 	 * 
 	 * @param testDupesArrayOfUnits
 	 * @return
 	 */
-	public boolean checkUnitsDistinct(String[] testDupesArrayOfUnits)
+	public static boolean checkUnitsDistinct(String[] testDupesArrayOfUnits)
 	{
 		String[] workingCopy = Arrays.copyOf(testDupesArrayOfUnits, testDupesArrayOfUnits.length);
 		Arrays.sort(workingCopy);
@@ -229,6 +180,32 @@ public class SystemOfMeasurement
 			}
 		}
 		return true;
+	}
+	
+	/**
+	 * <p>Removes the pre and proceeding opening/closing square bracket, typically found with the return from primitiveArray.toString().</p>
+	 * <p>Check first if the sole parameter is empty, if it's length is greater than 2 (ie, avoid "[]") and if it begins with [ and ends with ].</p>
+	 * <p>Failing this, the input parameter is returned.</p>
+	 * <p>Not used within class itself, useful in the case where object-constructive strings are needed to be retrieved.</p>
+	 * 
+	 * @param notQuiteCSV "[result,of,array.toString()]"
+	 * @return perhapsCSV "result,of,array.toString()"
+	 */
+	public static String removeLeadAndTrailSquareBrackets(String notQuiteCSV)
+	{
+		String perhapsCSV = (!notQuiteCSV.isBlank() && notQuiteCSV.length() > 2 && notQuiteCSV.indexOf("[") == 0 && notQuiteCSV.lastIndexOf("[") == notQuiteCSV.length()) ? notQuiteCSV.substring(1, notQuiteCSV.length()-1) : notQuiteCSV;
+		return perhapsCSV;
+	}
+	
+//CHECKERS	
+	/**
+	 * <p>Method to check </p>
+	 * 
+	 * @return
+	 */
+	public boolean checkTitleAndContextCreatedCorrectly()
+	{
+		return !systemOfMeasurementTitle.isBlank() && !systemOfMeasurementContext.isBlank();
 	}
 	
 	/**
@@ -283,41 +260,50 @@ public class SystemOfMeasurement
 	{
 		return checkTitleAndContextCreatedCorrectly() && !checkUnitsCreatedCorrectly().equals("INCCONST") && checkRelationsCreatedCorrectly();
 	}
-	
+//SETTERS
 	/**
-	 * <p>Removes the pre and proceeding opening/closing square bracket, typically found with the return from primitiveArray.toString().</p>
-	 * <p>Check first if the sole parameter is empty, if it's length is greater than 2 (ie, avoid "[]") and if it begins with [ and ends with ].</p>
-	 * <p>Failing this, the input parameter is returned.</p>
-	 * <p>Not used within class itself, useful in the case where object-constructive strings are needed to be retrieved.</p>
-	 * 
-	 * @param notQuiteCSV "[result,of,array.toString()]"
-	 * @return perhapsCSV "result,of,array.toString()"
+	 * @param titleToSystemOfMeasurement the titleToSystemOfMeasurement to set
 	 */
-	public static String removeLeadAndTrailSquareBrackets(String notQuiteCSV)
+	public void setSystemTitleAndContext(String SystemOfMeasurementTitle, String SystemOfMeasurementContext)
 	{
-		String perhapsCSV = (!notQuiteCSV.isBlank() && notQuiteCSV.length() > 2 && notQuiteCSV.indexOf("[") == 0 && notQuiteCSV.lastIndexOf("[") == notQuiteCSV.length()) ? notQuiteCSV.substring(1, notQuiteCSV.length()-1) : notQuiteCSV;
-		return perhapsCSV;
+		this.systemOfMeasurementTitle = SystemOfMeasurementTitle;
+		this.systemOfMeasurementContext = SystemOfMeasurementContext;
+		titleAndContextCreatedCorrectly = checkTitleAndContextCreatedCorrectly();
+		objectInstantiatedCorrectly = checkObjectInstantiatedCorrectly();
 	}
 	
 	/**
-	 * <p>Eclipse source-generated Object/Class.toString().</p>
-	 * <p>Not used within class itself, useful to expose class state for use/debugging outside.<p>
-	 * 
-	 * @return String Current object state.
+	 * @param arrayOfUnitsUnabbrDesc the arrayOfUnitsUnabbrDesc to set
 	 */
-	@Override
-	public String toString()
+	public void setArrayOfUnitsUnabbrDesc(String[] arrayOfUnitsUnabbrDesc)
 	{
-		return "SystemOfMeasurement [systemOfMeasurementTitle=" + systemOfMeasurementTitle
-				+ ", systemOfMeasurementContext=" + systemOfMeasurementContext + ", arrayOfUnitsUnabbrDesc="
-				+ Arrays.toString(arrayOfUnitsUnabbrDesc) + ", arrayOfUnitsAbbrDesc="
-				+ Arrays.toString(arrayOfUnitsAbbrDesc) + ", relativeToNextUnitDown="
-				+ Arrays.toString(relativeToNextUnitDown) + ", titleAndContextCreatedCorrectly="
-				+ titleAndContextCreatedCorrectly + ", relationsCreatedCorrectly=" + relationsCreatedCorrectly
-				+ ", objectInstantiatedCorrectly=" + objectInstantiatedCorrectly + ", whichUnitsCreatedCorrectly="
-				+ whichUnitsCreatedCorrectly + "]";
+		this.arrayOfUnitsUnabbrDesc = arrayOfUnitsUnabbrDesc;
+		whichUnitsCreatedCorrectly = checkUnitsCreatedCorrectly();
+		objectInstantiatedCorrectly = checkObjectInstantiatedCorrectly();
 	}
 	
+	/**
+	 * @param arrayOfUnitsAbbrDesc the arrayOfUnitsAbbrDesc to set
+	 */
+	public void setArrayOfUnitsAbbrDesc(String[] arrayOfUnitsAbbrDesc)
+	{
+		this.arrayOfUnitsAbbrDesc = arrayOfUnitsAbbrDesc;
+		whichUnitsCreatedCorrectly = checkUnitsCreatedCorrectly();
+		objectInstantiatedCorrectly = checkObjectInstantiatedCorrectly();
+		
+	}
+	
+	/**
+	 * @param relativeToNextUnitDown the relativeToNextUnitDown to set
+	 */
+	public void setRelativeToNextUnitDown(double[] relativeToNextUnitDown)
+	{
+		this.relativeToNextUnitDown = relativeToNextUnitDown;
+		relationsCreatedCorrectly = checkRelationsCreatedCorrectly(); 
+		objectInstantiatedCorrectly = checkObjectInstantiatedCorrectly();
+		
+	}
+//GETTERS
 	/**
 	 * <p>Returns the instance variable holding the title to the System of Measurement.</p>
 	 * 
@@ -363,12 +349,11 @@ public class SystemOfMeasurement
 	 * 
 	 * @return relativeToNextUnitDown
 	 */
-	public int[] getRelativeToNextUnitDown()
+	public double[] getRelativeToNextUnitDown()
 	{
 		return relativeToNextUnitDown;
 	}
-	
-	
+//ISSERS
 	/**
 	 * <p>Returns the instance variable holding whether the System of Measurement title and context have been created correctly. .</p>
 	 * 
