@@ -258,7 +258,7 @@ public class SystemOfMeasurement
 	 */
 	public boolean checkObjectInstantiatedCorrectly()
 	{
-		return checkTitleAndContextCreatedCorrectly() && !checkUnitsCreatedCorrectly().equals("INCCONST") && checkRelationsCreatedCorrectly();
+		return titleAndContextCreatedCorrectly && !whichUnitsCreatedCorrectly.equals("INCCONST") && relationsCreatedCorrectly;
 	}
 //SETTERS
 	/**
